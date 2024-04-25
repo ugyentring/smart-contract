@@ -19,4 +19,24 @@ describe("MyContract", function () {
     expect(await contract.var1()).to.equal(a);
     expect(await contract.var2()).to.equal(b);
   });
+
+  it("should correctly add two stored values", async function () {
+    const a = 5;
+    const b = 3;
+
+    await contract.storeVals(a, b);
+
+    const result = await contract.addOperations();
+    expect(result).to.equal(a + b);
+  });
+
+  it("should correctly subtract two stored values", async function () {
+    const a = 10;
+    const b = 4;
+
+    await contract.storeVals(a, b);
+
+    const result = await contract.subtractOperation();
+    expect(result).to.equal(a - b);
+  });
 });
