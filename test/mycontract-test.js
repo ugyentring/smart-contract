@@ -3,9 +3,13 @@ const { expect } = require("chai");
 
 describe("MyContract", function () {
   let contract;
+  let signer;
 
   beforeEach(async function () {
-    const MyContract = await ethers.getContractFactory("MyContract");
+    const accounts = await ethers.getSigners();
+    signer = accounts[0];
+
+    const MyContract = await ethers.getContractFactory("MyContract", signer);
     contract = await MyContract.deploy();
     await contract.deployed();
   });
@@ -14,7 +18,7 @@ describe("MyContract", function () {
     const a = 1;
     const b = 2;
 
-    await contract.storeVals(a, b);
+    await contract.connect(signer).storeVals(a, b);
 
     expect(await contract.var1()).to.equal(a);
     expect(await contract.var2()).to.equal(b);
